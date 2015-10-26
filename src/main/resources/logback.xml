@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration> 
+  <property name="LOG_HOME" value="/opt/cbdt/tomcat/logs" />  
+ <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender"> 
+ <Encoding>UTF-8</Encoding>
+  <encoder> 
+   <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern> 
+  </encoder> 
+ </appender> 
+  <appender name="FILE"  class="ch.qos.logback.core.rolling.RollingFileAppender">   
+        <Encoding>UTF-8</Encoding>   
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${LOG_HOME}/insurance.%d{yyyy-MM-dd}.log</FileNamePattern>   
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>   
+        <encoder> 
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符--> 
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n   
+            </pattern>   
+       </encoder> 
+        <!--日志文件最大的大小-->
+       <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+         <MaxFileSize>10MB</MaxFileSize>
+       </triggeringPolicy>
+    </appender> 
+     <appender name="ERROR"  class="ch.qos.logback.core.rolling.RollingFileAppender">   
+        <Encoding>UTF-8</Encoding>   
+         <filter class="ch.qos.logback.classic.filter.LevelFilter">
+             <level>ERROR</level>
+             <onMatch>ACCEPT</onMatch>
+             <onMismatch>DENY </onMismatch>
+         </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${LOG_HOME}/insurance.%d{yyyy-MM-dd}.error.log</FileNamePattern>   
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>   
+        <encoder>
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符--> 
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n   
+            </pattern>   
+       </encoder>
+        <!--日志文件最大的大小-->
+       <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+         <MaxFileSize>10MB</MaxFileSize>
+       </triggeringPolicy>
+    </appender> 
+    
+    
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+    	<discardingThreshold >0</discardingThreshold>  
+            <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->  
+            <queueSize>512</queueSize>  
+    	<appender-ref ref="FILE" />
+  </appender>
+  
+      <appender name="ERRORASYNC" class="ch.qos.logback.classic.AsyncAppender">
+    	<discardingThreshold >0</discardingThreshold>  
+            <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->  
+            <queueSize>512</queueSize>  
+    	<appender-ref ref="ERROR" />
+  </appender>
+    
+
+ 
+ <root level="info"> 
+  <appender-ref ref="STDOUT" /> 
+   <appender-ref ref="ASYNC" /> 
+   <appender-ref ref="ERRORASYNC" />
+ </root> 
+ 
+</configuration>

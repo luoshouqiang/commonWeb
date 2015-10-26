@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>保险询价</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/json2.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/jquery.validate.js"></script>
+<script src="../js/validate.js"></script>
+<script src="../js/insAskPrice.js"></script>
+<script src="../js/My97DatePicker/WdatePicker.js?v=20150814"></script>
+<script src="../js/handlebars-v3.0.3.js"></script>
+<script src="../js/handerHelper.js"></script>
+<link href="../style/insAskPrice.css?v=20150814" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div class="header">
+    <div class="header-b  w">
+		<div class="logo"><img src="../images/logo.png" alt="车必达"></div>
+    </div>
+</div>
+<div class="container w mt-20">
+    <div class="lframe bg-gray">
+        <ul class="nav">
+            <li class="nav-list active"><a href="insAskPrice.html" class="nav-list-a btn btn-213"><i class="icon-nav"></i>保险询价</a></li>
+             <li class="nav-list"><a href="insOrder.html" class="nav-list-a btn btn-213"><i class="icon-nav"></i>保险订单</a></li>
+             <li class="nav-list"><a href="endTimeUserSearch.html" class="nav-list-a btn btn-213"><i class="icon-nav"></i>到期用户查询</a></li>  
+        </ul>
+    </div>
+    <div class="rframe">
+        <div class="searchprogress"><img src="../images/query_user.png"></div>
+        <div class="user-search-box">
+            <div class="search-condition">
+                <div class="sc-b">
+                    <form name="searchform" id="searchform" class="form-inline" method="post"  action="">
+                        <div class="row p-0">
+                          <div class="form-group col-5 fr"><label>车架号：</label><input type="text" value="" id="vin" class="form-control" name="vin"></div>
+                        <div class="form-group col-5  fl"><label>车 牌 号：</label><input type="text" value="" id="vehiclePlatNo" class="form-control" name="vehiclePlatNo"></div>
+                        </div>
+                        <div class="row">
+                           <div class="form-group col-5  fl"><label>询价时间：</label>
+                          <input type="text" class="form-control date startDate" id="startDate" name="startDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'endDate\')}'})"/> - 
+                           <input type="text" class="form-control date endDate" id="endDate" name="endDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startDate\')}'})"/>
+                          </div>
+                          <div class="form-group form-group-select col-5 fr"><label>状态：</label>
+                              <select id="inquiryStatus" class="form-control" name="inquiryStatus">
+                                  <option value="START">未处理</option>
+                                  <option value="REPLY">已处理</option>
+                                  <option value="REFUSE">已拒绝</option>
+                              </select>
+                          </div>
+                        </div>
+                        <p class="mt-25"><input type="submit" value="" class="btn btn-135 btn-yellow fr submit-btn"></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="table-box mt-35">
+            <h3 class="title-h3-a">搜索结果</h3>
+            <table class="table-a mt-20" cellpadding="0" cellspacing="0">
+        		<tr>
+                    <th width="5%" class="ta-l">id</th>
+                    <th width="10%">用户名</th>
+                    <th width="9%">电话</th>
+                    <th width="10%">小区名称</th>
+                    <th width="8%">停车场</th>
+                    <th width="8%">车位号</th>
+                    <th width="8%">车位类型</th>
+                    <th width="8%">拥有方式</th>
+                    <th width="8%">车牌号</th>
+                    <th width="8%">是否入库</th>
+                    <th width="8%">到期时间</th>
+                    <th class="ta-r"width="8%">操作</th>
+                </tr>
+                <tbody id="table-a-list">
+            	 <script id="askPriceUserList" type="text/x-handlebars-template">
+				 {{#each this}}
+				 {{#judgeIndexOddEven @index}}
+					<tr class="tr-flag">
+					{{else}}
+					<tr class="">
+				 {{/judgeIndexOddEven}}
+					<td>{{user_name}}</td>
+					<td>{{mobile}}</td>
+					<td>{{plat_no}}</td>
+					<td>{{insur_year}}</td>
+					{{#judgeNull vin}}
+						<td>{{vin}}</td>
+					{{else}}
+						 <td>无</td>
+					{{/judgeNull}}
+					{{#judgeNull inquiry_remar}}
+						<td>{{inquiry_remar}}</td>
+					{{else}}
+						 <td>无</td>
+					{{/judgeNull}}
+					{{#judgeNull begin_time}}
+						<td>{{begin_time}}</td>
+					{{else}}
+						 <td>无</td>
+					{{/judgeNull}}
+					{{#judgeNull end_time}}
+						<td>{{end_time}}</td>
+					{{else}}
+						 <td>无</td>
+					{{/judgeNull}}
+					<td>{{inquiry_status}}</td>
+					{{#judgeStatus inquiry_status}}
+                    	<td class="change operation-btn ta-r"><a href="/cms/html/user_modify.html?userid={{userId}}&areaid={{areaId}}">处理</a></td>
+					{{else}}
+					   <td class="change operation-btn ta-r">无</td>
+					 {{/judgeStatus}}
+					</tr>
+  				 {{/each}}	
+                </script>
+              
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+<div class="footer">
+    <div class="footer-box w">
+         <span class="copyright">
+             <p>- Copyright &#169; 2015 成都车必达科技有限公司版权所有 -</p>
+             <a href="http://www.miitbeian.gov.cn"  class="filing-number">蜀ICP备15014752号-2</a>
+        </span>
+        <span class="footer-logo"><img src="../images/footer_logo.png"></span>
+    </div>
+</div>
+
+
+
+</body>
+</html>

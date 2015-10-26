@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>保险订单</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/require.js" data-main="../js/insAskPrice"></script>
+<link href="../style/insOrder.css?v=20150814" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div class="header">
+    <div class="header-b  w">
+		<div class="logo"><img src="../images/logo.png" alt="车必达"></div>
+    </div>
+</div>
+<div class="container w mt-20">
+    <div class="lframe bg-gray">
+        <ul class="nav">
+             <li class="nav-list active"><a href="insAskPrice.html" class="nav-list-a btn btn-213"><i class="icon-nav"></i>保险询价</a></li>
+             <li class="nav-list"><a href="insOrder.html" class="nav-list-a btn btn-213"><i class="icon-nav"></i>保险订单</a></li>
+             <li class="nav-list"><a href="endTimeUserSearch.html" class="nav-list-a btn btn-213"><i class="icon-nav"></i>到期用户查询</a></li>  
+        </ul>
+    </div>
+    <div class="rframe">
+        <div class="searchprogress"><img src="../images/query_user.png"></div>
+        <div class="user-search-box">
+            <div class="search-condition">
+                <div class="sc-b">
+                    <form name="searchform" id="searchform" class="form-inline" method="post"  action="">
+                        <div class="row p-0">
+                          <div class="form-group form-group-select col-5 fl"><label>小区名字：</label>
+                                    <select id="areaName" class="form-control" name="areaName">
+                                       <script id="all-area-select" type="text/x-handlebars-template">
+                  									    <option value="0">所有小区</option>
+                  									    {{#each this}}
+                  									    	<option value={{area_id}}>{{area_name}}</option>
+                  									   	{{/each}}
+                  									   </script>
+                                    </select>
+                          </div>
+                          <div class="form-group col-5 fr"><label>房号：</label><input type="text" value="" id="roomNo" class="form-control" name="roomNo"></div>
+                        </div>
+                        <div class="row">
+                          <div class="form-group col-5 fl"><label>用户姓名：</label><input type="text" value="" id="userName" class="form-control" name="userName"></div>
+                          <div class="form-group col-5 fr"><label>电话号码：</label><input type="text" value="" id="phoneNum" class="form-control" name="phoneNum"></div>
+                        </div>
+                        <div class="row">
+                          <div class="form-group col-5  fl"><label>车 牌 号：</label><input type="text" value="" id="platNo" class="form-control" name="platNo"></div>
+                          <div class="form-group col-5  fr"><label>车 位 号：</label><input type="text" value="" id="parkingNo" class="form-control" name="parkingNo"></div>
+                        </div>
+                        <p class="mt-25"><input type="submit" value="" class="btn btn-135 btn-yellow fr submit-btn"></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="table-box mt-35">
+            <h3 class="title-h3-a">搜索结果</h3>
+            <table class="table-a mt-20" cellpadding="0" cellspacing="0">
+        		<tr>
+                    <th width="5%" class="ta-l">id</th>
+                    <th width="10%">用户名</th>
+                    <th width="9%">电话</th>
+                    <th width="10%">小区名称</th>
+                    <th width="8%">停车场</th>
+                    <th width="8%">车位号</th>
+                    <th width="8%">车位类型</th>
+                    <th width="8%">拥有方式</th>
+                    <th width="8%">车牌号</th>
+                    <th width="8%">是否入库</th>
+                    <th width="8%">到期时间</th>
+                    <th class="ta-r"width="8%">操作</th>
+                </tr>
+                <tbody id="table-a-list">
+            	 <script id="user-search-table" type="text/x-handlebars-template">
+				 {{#each this}}
+				 {{#judgeIndexOddEven @index}}
+					<tr class="tr-flag">
+					{{else}}
+					<tr class="">
+				 {{/judgeIndexOddEven}}
+					<td>{{userId}}</td>
+					<td>{{userName}}</td>
+					<td>{{phoneNum}}</td>
+					<td>{{areaName}}</td>
+					{{#judgeNull plotsName}}
+						<td>{{plotsName}}</td>
+					{{else}}
+						 <td>无</td>
+					{{/judgeNull}}
+					<td>{{parkingNo}}</td>
+			        <td>{{parkingSpace}}</td>
+					<td>{{parkingType}}</td>
+			        <td>{{platNo}}</td>
+					<td class="cr">{{vehicleStatus}}</td>
+					<td>{{dueDate}}</td>
+					{{#judgeUserId userId}}
+                    	<td class="change operation-btn ta-r"><a href="/cms/html/user_modify.html?userid={{userId}}&areaid={{areaId}}">修改</a></td>
+					{{else}}
+					   <td class="change operation-btn ta-r">无</td>
+					 {{/judgeUserId}}
+					</tr>
+  				 {{/each}}	
+                </script>
+              
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+<div class="footer">
+    <div class="footer-box w">
+         <span class="copyright">
+             <p>- Copyright &#169; 2015 成都车必达科技有限公司版权所有 -</p>
+             <a href="http://www.miitbeian.gov.cn"  class="filing-number">蜀ICP备15014752号-2</a>
+        </span>
+        <span class="footer-logo"><img src="../images/footer_logo.png"></span>
+    </div>
+</div>
+</body>
+</html>
