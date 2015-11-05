@@ -14,10 +14,13 @@
        default-lazy-init="true">
 
     <description>SpringJpa配置</description>
-    
+    <import resource="spring-config-shiro.xml"/>
+    <context:annotation-config/>
+     <tx:annotation-driven/> 
     <!-- 如果spring用了jpa，并且类型为LocalContainerEntityManagerFactoryBean，则组件注册在此配置文件出现即可，其余配置文件可忽略
            使用component来替代annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入\ -->
-    <context:component-scan base-package="com.visoft.framework"/>
+    <context:component-scan base-package="com.visoft.framework org.springframework.data.jpa.repository.support"/>
+
     
     <!-- spring启动时扫描项目路径下的properties文件,后续用${key }方式取出对应值,这样可以代码解耦和，后续只需修改properties文件即可 -->
     <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -58,8 +61,8 @@
     </bean>
     
     <!-- 重要配置：启用扫描并自动创建代理的功能  -->
-    <jpa:repositories base-package="com.visoft.framework.respo"  transaction-manager-ref="transactionManager"
-     entity-manager-factory-ref="entityManagerFactory" repository-base-class="com.visoft.framework.respo.BaseDao"/>
+    <jpa:repositories base-package="com.visoft.framework.repository"  transaction-manager-ref="transactionManager"
+     entity-manager-factory-ref="entityManagerFactory" factory-class="com.visoft.framework.repository.support.BaseRespositoryFactoryBean"/>
     
     <!-- Hibernate对Jpa的实现 -->
     <bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>

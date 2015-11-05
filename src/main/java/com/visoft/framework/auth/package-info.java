@@ -5,4 +5,4 @@
  * @author luosq
  *
  */
-package com.visoft.framework.dto;
+package com.visoft.framework.auth;
