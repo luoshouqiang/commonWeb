@@ -3,10 +3,9 @@ package com.visoft.framework.auth;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.sun.tools.javac.util.Assert;
-import com.visoft.framework.auth.Permission.RequestMethod;
 
 public class AuthUser {
 	private int id;
@@ -15,7 +14,6 @@ public class AuthUser {
 
 	public AuthUser(int id){
 		this.id=id;
-		getAuthInfo();
 	}
 	/**
 	 * @return the roles
@@ -53,17 +51,7 @@ public class AuthUser {
 		this.id = id;
 	}
 	
-	public void getAuthInfo(){
-		Permission permission=new Permission();
-		permission.setUrl("/user/test");
-		permission.addOperation(RequestMethod.GET);
-		
-		Role role=new Role();
-		role.setRoleName("tester");
-		role.addPermission(permission);
-		addRole(role);
-		
-	}
+	
 
 	private void addPermission(Role role) {
 		Assert.checkNonNull(role, "role is null");
@@ -98,26 +86,11 @@ public class AuthUser {
 			addPermission(role);
 		}
 	}
-
-	 boolean hasPermission(Permission permission) {
-		for(Permission existPer:allPermissions){
-				String existUrl=existPer.getUrl();
-				String checUrl=permission.getUrl();
-				if(existUrl!=null&&existUrl.endsWith(checUrl)){
-					Set<RequestMethod> needCheckOp=permission.getOperationLists();
-					if(CollectionUtils.isEmpty(needCheckOp)){
-						return false;
-					}
-					if(needCheckOp.size()>1){
-						throw new AuthException("验证的时候只能添加一个权限");
-					}
-					RequestMethod requestMethod=(RequestMethod)needCheckOp.toArray()[0];
-					if(existPer.getOperationLists().contains(requestMethod)){
-						return true;
-					}
-				}
-			}
-		return false;
+	
+	 Set<Permission> getAllPermissions() {
+		return allPermissions;
 	}
+
+	 
 
 }

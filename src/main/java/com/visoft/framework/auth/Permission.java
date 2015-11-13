@@ -3,12 +3,11 @@ package com.visoft.framework.auth;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.web.bind.annotation.RequestMethod;
+
 public class Permission {
-	enum RequestMethod{
-		GET,POST
-	}
 	private String url;
-	private  Set<RequestMethod> operationLists=new HashSet<Permission.RequestMethod>();
+	private  Set<RequestMethod> operationLists=new HashSet<RequestMethod>();
 	/**
 	 * @return the url
 	 */
